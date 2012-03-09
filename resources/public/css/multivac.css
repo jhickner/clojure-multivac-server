@@ -43,6 +43,6 @@ li.item {
   padding:2px;}
 
 .content {
-  white-space:pre-line;
+  white-space:pre-wrap;
   margin-top:10px;
 }
