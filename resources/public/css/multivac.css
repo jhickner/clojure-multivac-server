@@ -1,0 +1,48 @@
+ul.tags { font-family:'IM Fell English', serif; 
+  font-size:2em; 
+  line-height:1em;
+  margin-bottom:5px;
+  list-style-type:none;
+}
+
+li.tag {
+  display:inline;
+  margin-right:10px;
+}
+
+a.tag:active, a.tag:visited, a.tag:link {
+  color:#000;
+  text-decoration:none;
+}
+
+a.tag:hover {
+  color:#99ccff;
+}
+
+a:link, a:visited, a:active {
+  color:#99ccff;
+  /* color:#333;*/
+}
+
+#wrapper {
+  margin:10px;
+}
+
+li.item {
+  margin:0 0 20px 0;
+  padding-bottom:20px;
+  border-bottom:dotted 1px;
+  max-width:650px;
+}
+
+.date {
+  background-color:#000;
+  color:#fff;
+  font-style:italic;
+  font-size:0.8em;
+  padding:2px;}
+
+.content {
+  white-space:pre-line;
+  margin-top:10px;
+}
