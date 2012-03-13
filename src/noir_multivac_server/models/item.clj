@@ -32,7 +32,8 @@
         is-json (= as :json)
         opts (if is-json [:as :json] [])
         opts (if (seq tag-vec) 
-               (concat opts [:where {:tags {"$all" tag-vec}}]))
+               (concat opts [:where {:tags {"$all" tag-vec}}
+                             :sort {:ts 1}]))
         res (apply db/fetch coll opts)]
     (if is-json
       (fix-json res)

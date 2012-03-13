@@ -26,7 +26,7 @@
   (let [body (slurp (:body (request/ring-request)))
         id (str (:_id (items/add! 
                         (json/parse-string body))))]
-    (res/status 200 id)))
+    id))
 
 ; update an item
 (defpage [:put ["/api/item/:id" :id id-regex]] {id :id}
@@ -38,7 +38,7 @@
 ; delete an item
 (defpage [:delete ["/api/item/:id" :id id-regex]] {id :id}
   (items/delete! id)
-  (res/status 200 "ok"))
+  "ok")
 
 (defpage "/api/tag-count" []
   (json-ctype (items/tag-count 20)))

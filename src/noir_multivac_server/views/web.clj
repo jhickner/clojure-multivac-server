@@ -17,7 +17,7 @@
 (defpartial layout [& content]
             (html5
               [:head
-               [:title "noir-multivac-server"]
+               [:title "Multivac"]
                (include-css 
                  "http://fonts.googleapis.com/css?family=IM+Fell+English")
                (include-css "/css/reset.css")
