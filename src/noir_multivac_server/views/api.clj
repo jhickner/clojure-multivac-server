@@ -1,9 +1,13 @@
 (ns noir-multivac-server.views.api
   (:require [noir-multivac-server.models.item :as items]
-            [noir.response :as res])
+            [noir.response :as res]
+            [noir.request :as request]
+            [remvee.base64 :as base64]
+            [cheshire.core :as json])
   (:use noir.core
         hiccup.core
         hiccup.page-helpers))
+
 
 (def id-regex #"[a-zA-Z0-9]{24}")
 
@@ -19,10 +23,10 @@
 
 ; create an item
 (defpage [:post "/api/item"] {}
-  ; parse json body as p
-  ;(items/add! p)
-  ; return id
-  )
+  (let [body (slurp (:body (request/ring-request)))
+        id (str (:_id (items/add! 
+                        (json/parse-string body))))]
+    (res/status 200 id)))
 
 ; update an item
 (defpage [:put ["/api/item/:id" :id id-regex]] {id :id}
@@ -34,10 +38,36 @@
 ; delete an item
 (defpage [:delete ["/api/item/:id" :id id-regex]] {id :id}
   (items/delete! id)
-  ; return 200 ok
-  )
+  (res/status 200 "ok"))
 
-(defpage "/api/tag-ranking" []
-  ; return an ordered list of [tag-name, count]
-  ; might want to use a map reduce for this
-  )
+(defpage "/api/tag-count" []
+  (json-ctype (items/tag-count 20)))
+
+
+;********************************
+; API KEY
+;********************************
+
+(defn parse-basic-auth [req]
+  (let [auth ((:headers req) "authorization")
+        cred (and auth
+                  (base64/decode-str
+                    (last
+                      (re-find #"^Basic (.*)$" auth))))
+        user (and cred
+                  (last
+                    (re-find #"^(.*):" cred)))
+        pass (and cred
+                  (last
+                    (re-find #":(.*)$" cred)))]
+    (if (and user pass)
+      {:user user :pass pass :cred cred})))
+
+(pre-route "/api*" []
+           (let [req (request/ring-request)
+                 auth (parse-basic-auth req)]
+             (if (= (:user auth) 
+                    "653638dc733afce75130303fe6e6010f63768af0")
+               nil
+               (res/status 401 "Access denied"))))
+

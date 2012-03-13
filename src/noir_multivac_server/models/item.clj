@@ -44,11 +44,35 @@
                                (concat opts '[:as :json])
                                opts))))
 
-(defn add! [p] (db/insert! coll (annotate-item p)))
+(defn add! [p] 
+  (db/insert! coll (annotate-item p)))
 
-(defn delete! [id] (db/destroy! coll {:_id (db/object-id id)}))
+(defn delete! [id] 
+  (db/destroy! coll {:_id (db/object-id id)}))
 
 (defn update! [id p]
   (if-let [current (fetch id)]
     (db/update! :items {:_id (db/object-id id)}
              (annotate-item (merge current p)))))
+
+(defn tag-count [limit]
+  (let [mapfn 
+        "function() {
+          this.tags.forEach(function(tag) {
+            emit(tag,1)
+          })
+        }"
+        reducefn 
+        "function(key,values) {
+          var res=0;
+            values.forEach(function(value) {
+              res+=value
+            });
+          return res;
+        }"]
+    (db/map-reduce coll mapfn reducefn :tag-count)
+    (fix-json (db/fetch :tag-count 
+                        :sort {:value -1} 
+                        :limit limit
+                        :as :json))))
+
