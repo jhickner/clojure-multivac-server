@@ -69,6 +69,6 @@
              (if (= (:user auth) 
                     "653638dc733afce75130303fe6e6010f63768af0")
                nil
-               (res/status 401 
-                           (res/content-type "text/html" "Access denied")))))
+               (res/content-type "text/html" 
+                                 (res/status 401 "Access denied")))))
 
