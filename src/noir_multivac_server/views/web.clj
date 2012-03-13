@@ -1,4 +1,4 @@
-(ns noir-multivac-server.views.common
+(ns noir-multivac-server.views.web
   (:require [clojure.string :as string]
             [noir.validation :as vali]
             [noir.response :as res]
@@ -9,6 +9,10 @@
         hiccup.core
         hiccup.page-helpers
         hiccup.form-helpers))
+
+;***********************
+; PARTIALS
+;***********************
 
 (defpartial layout [& content]
             (html5
@@ -45,6 +49,20 @@
 (defpartial error-text [errors]
             [:p (string/join "<br/>" errors)])
 
+(defpartial user-fields [{:keys [username] :as usr}]
+            (vali/on-error :username error-text)
+            (text-field {:placeholder "Username"} :username username)
+            (password-field {:placeholder "Password"} :password))
+
+
+;***********************
+; PAGES
+;***********************
+
+(pre-route "/notes*" {}
+           (when-not (users/admin?)
+             (res/redirect "/login")))
+
 (defpage "/" []
   (res/redirect "/notes"))
 
@@ -56,16 +74,6 @@
 
 (defpage [:get ["/notes/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
   (items-page (items/search tags)))
-
-(pre-route "/notes*" {}
-           (when-not (users/admin?)
-             (res/redirect "/login")))
-
-
-(defpartial user-fields [{:keys [username] :as usr}]
-            (vali/on-error :username error-text)
-            (text-field {:placeholder "Username"} :username username)
-            (password-field {:placeholder "Password"} :password))
 
 (defpage "/login" {:as user}
          (if (users/admin?)
@@ -85,6 +93,3 @@
 (defpage "/logout" {}
          (session/clear!)
          (res/redirect "/notes"))
-
-
-

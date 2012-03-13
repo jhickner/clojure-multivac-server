@@ -2,7 +2,6 @@
   (:require [noir.server :as server]
             [somnium.congomongo :as db]))
 
-
 (server/load-views "src/noir_multivac_server/views/")
 
 (defn -main [& m]

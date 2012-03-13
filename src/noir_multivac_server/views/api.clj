@@ -18,10 +18,26 @@
   (json-ctype (items/fetch id :as :json)))
 
 ; create an item
-(defpage [:post "/api/item"] {} "create")
+(defpage [:post "/api/item"] {}
+  ; parse json body as p
+  ;(items/add! p)
+  ; return id
+  )
 
 ; update an item
-(defpage [:put ["/api/item/:id" :id id-regex]] {} "update")
+(defpage [:put ["/api/item/:id" :id id-regex]] {id :id}
+  ; parse json body as p
+  ;(items/update! id p)
+  ; return 200 ok
+  )
 
 ; delete an item
-(defpage [:delete ["/api/item/:id" :id id-regex]] {id :id} "delete")
+(defpage [:delete ["/api/item/:id" :id id-regex]] {id :id}
+  (items/delete! id)
+  ; return 200 ok
+  )
+
+(defpage "/api/tag-ranking" []
+  ; return an ordered list of [tag-name, count]
+  ; might want to use a map reduce for this
+  )

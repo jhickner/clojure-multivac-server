@@ -5,7 +5,9 @@
 
 (def coll :items)
 
-;; HELPERS
+;***********************
+; HELPERS
+;***********************
 
 (defn- parse-tags [tags] 
   (if (string? tags) 
@@ -20,7 +22,10 @@
 (defn- fix-json [s]
   (str "[" (apply str (interpose "," s)) "]"))
 
-;; OPERATIONS
+
+;***********************
+; OPERATIONS
+;***********************
 
 (defn search [tags &{:keys [as]}]
   (let [tag-vec (parse-tags tags)
