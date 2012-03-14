@@ -6,6 +6,7 @@
             [noir-multivac-server.models.user :as users]
             [noir-multivac-server.models.item :as items])
   (:use noir.core
+        noir.fetch.remotes
         hiccup.core
         hiccup.page-helpers
         hiccup.form-helpers))
@@ -21,7 +22,10 @@
                (include-css 
                  "http://fonts.googleapis.com/css?family=IM+Fell+English")
                (include-css "/css/reset.css")
-               (include-css "/css/multivac.css")]
+               (include-css "/css/multivac.css")
+               (include-js 
+                 "https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js") 
+              (include-js "/js/main.js")] 
               [:body
                [:div#wrapper
                 content]]))
@@ -31,9 +35,10 @@
     [:a.tag {:href (str "/notes/" t)} t]])
 
 (defpartial item-layout [i]
-  [:li.item
+  [:li.item {:data-id (i :_id)}
     [:ul.tags (map tag-link (i :tags))]
     [:span.date (i :ts)]
+    [:a.delete {:href "#" :data-id (i :_id) } "delete"]
     [:p.content (i :body)]
     (when-let [link (i :link)] 
       [:a {:href link :target "_new"} link]) 
@@ -53,6 +58,14 @@
             (vali/on-error :username error-text)
             (text-field {:placeholder "Username"} :username username)
             (password-field {:placeholder "Password"} :password))
+
+;***********************
+; REMOTES
+;***********************
+
+(defremote delete-item [id]
+  (items/delete! id)
+  "ok")
 
 
 ;***********************
