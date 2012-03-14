@@ -9,12 +9,10 @@
              (remove 
                ($ (str "li.item[data-id=" id "]")))))
 
-(.ready ($ :document) 
-        (fn []
-          (delegate ($ :body) :a.delete :click
-                    (fn [e]
-                      (.preventDefault e)
-                      (if (js/confirm "really delete?")
-                        (this-as me
-                                 (let [id (data ($ me) :id)]
-                                   (remote-delete id)))))))) 
+(js/$ (fn []
+        (delegate ($ :body) :a.delete :click
+                  (fn [e]
+                    (.preventDefault e)
+                    (if (js/confirm "really delete?")
+                      (this-as this 
+                               (remote-delete (data ($ this) :id)))))))) 

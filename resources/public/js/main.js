@@ -4266,9 +4266,9 @@ function ug(a, c, d) {
     return Df.call(k, Bf.call(k, S.call(k, "li.item[data-id=", a, "]")))
   })
 }
-Bf.call(k, "\ufdd0'document").ready(function() {
+$.call(k, function() {
   return Ef.call(k, Bf.call(k, "\ufdd0'body"), "\ufdd0'a.delete", "\ufdd0'click", function(a) {
     a.preventDefault();
-    return z(confirm.call(k, "really delete?")) ? (a = Cf.call(k, Bf.call(k, this), "\ufdd0'id"), vg.call(k, a)) : k
+    return z(confirm.call(k, "really delete?")) ? vg.call(k, Cf.call(k, Bf.call(k, this), "\ufdd0'id")) : k
   })
 });
