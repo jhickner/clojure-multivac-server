@@ -86,13 +86,13 @@
   (res/redirect "/notes"))
 
 (defpage "/notes" []
-  (items-page (items/search "todo" :sort-dir -1)))
+  (items-page (items/search "todo")))
 
 (defpage [:post "/notes"] {:as data}
-  (items-page (items/search (data :tags) :sort-dir -1)))
+  (items-page (items/search (data :tags))))
 
 (defpage [:get ["/notes/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
-  (items-page (items/search tags :sort-dir -1)))
+  (items-page (items/search tags)))
 
 (defpage "/login" {:as user}
          (if (users/admin?)
