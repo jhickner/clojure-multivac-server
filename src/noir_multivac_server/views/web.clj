@@ -9,7 +9,10 @@
         noir.fetch.remotes
         hiccup.core
         hiccup.page-helpers
-        hiccup.form-helpers))
+        hiccup.form-helpers
+        (clj-time [core :only [in-days interval now]])
+        (clj-time [coerce :only [from-date]])
+        ))
 
 ;***********************
 ; PARTIALS
@@ -37,7 +40,8 @@
 (defpartial item-layout [i]
   [:li.item {:data-id (i :_id)}
     [:ul.tags (map tag-link (i :tags))]
-    [:span.date (i :ts)]
+    [:span.date (in-days (interval (from-date (i :ts)) (now)))
+                " days ago"]
     [:a.delete {:href "#" :data-id (i :_id) } "delete"]
     [:p.content (i :body)]
     (when-let [link (i :link)] 

@@ -4,6 +4,7 @@
     [somnium.congomongo :as db]))
 
 (def coll :items)
+(def valid-keys [:body :tags :ts :link])
 
 ;***********************
 ; HELPERS
@@ -40,13 +41,15 @@
       res)))
 
 (defn fetch [id &{:keys [as]}] 
-  (let [opts [:where {:_id (db/object-id id)}]]
-    (apply db/fetch-one coll (if (= as :json)
-                               (concat opts '[:as :json])
-                               opts))))
+  (let [opts [coll (db/object-id id)]
+        opts (if (= as :json) 
+               (concat opts '[:as :json]) opts)]
+    (apply db/fetch-by-id opts)))
 
 (defn add! [p] 
-  (db/insert! coll (annotate-item p)))
+  (db/insert! coll 
+              (annotate-item 
+                (select-keys p valid-keys))))
 
 (defn delete! [id] 
   (db/destroy! coll {:_id (db/object-id id)}))
@@ -54,7 +57,7 @@
 (defn update! [id p]
   (if-let [current (fetch id)]
     (db/update! :items {:_id (db/object-id id)}
-             (annotate-item (merge current p)))))
+                (annotate-item (merge current p)))))
 
 (defn tag-count [limit]
   (let [mapfn 

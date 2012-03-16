@@ -9,5 +9,5 @@
         port (Integer. (get (System/getenv) "PORT" "4545"))]
     (db/mongo! :host "127.0.0.1" :db "multivac")
     (server/start port {:mode mode
-                        :ns 'noir-multivac-server})))
+                        :ns 'noir-multivac-server}))) 
 

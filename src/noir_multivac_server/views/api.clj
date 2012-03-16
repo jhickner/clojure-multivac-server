@@ -17,25 +17,21 @@
 (defpage [:get ["/api/search/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
   (json-ctype (items/search tags :as :json)))
 
-; get particular item
 (defpage [:get ["/api/item/:id" :id id-regex]] {id :id} 
   (json-ctype (items/fetch id :as :json)))
 
-; create an item
 (defpage [:post "/api/item"] {}
   (let [body (slurp (:body (request/ring-request)))
         id (str (:_id (items/add! 
                         (json/parse-string body))))]
     id))
 
-; update an item
 (defpage [:put ["/api/item/:id" :id id-regex]] {id :id}
   ; parse json body as p
   ;(items/update! id p)
   ; return 200 ok
   )
 
-; delete an item
 (defpage [:delete ["/api/item/:id" :id id-regex]] {id :id}
   (items/delete! id)
   "ok")
