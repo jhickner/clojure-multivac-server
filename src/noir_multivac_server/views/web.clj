@@ -21,6 +21,8 @@
 (defpartial layout [& content]
             (html5
               [:head
+               [:meta {:content "width=device-width, initial-scale=1" 
+                       :name "viewport"}]
                [:title "Multivac"]
                (include-css 
                  "http://fonts.googleapis.com/css?family=IM+Fell+English")
