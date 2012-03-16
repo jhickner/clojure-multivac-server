@@ -1,7 +1,8 @@
 (ns noir-multivac-server.models.item
   (:require 
     [clojure.string :as string]
-    [somnium.congomongo :as db]))
+    [somnium.congomongo :as db])
+  (:use [clojure.walk :only [keywordize-keys]]))
 
 (def coll :items)
 (def valid-keys [:body :tags :ts :link])
@@ -50,7 +51,8 @@
 (defn add! [p] 
   (db/insert! coll 
               (annotate-item 
-                (select-keys p valid-keys))))
+                (select-keys (keywordize-keys p) 
+                             valid-keys))))
 
 (defn delete! [id] 
   (db/destroy! coll {:_id (db/object-id id)}))
