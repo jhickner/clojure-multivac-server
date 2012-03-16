@@ -34,7 +34,8 @@
         opts [:sort {:ts sort-dir}]
         opts (if is-json (concat opts [:as :json]) opts)
         opts (if (seq tag-vec) 
-               (concat opts [:where {:tags {"$all" tag-vec}}]))
+               (concat opts [:where {:tags {"$all" tag-vec}}])
+               opts)
         res (apply db/fetch coll opts)]
     (if is-json
       (fix-json res)
