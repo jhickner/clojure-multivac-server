@@ -15,7 +15,7 @@
   (res/content-type "application/json" body))
 
 (defpage [:get ["/api/search/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
-  (json-ctype (items/search tags :as :json)))
+  (json-ctype (items/search tags :as :json :sort-dir 1)))
 
 (defpage [:get ["/api/item/:id" :id id-regex]] {id :id} 
   (json-ctype (items/fetch id :as :json)))

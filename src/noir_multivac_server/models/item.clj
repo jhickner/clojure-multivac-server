@@ -28,13 +28,13 @@
 ; OPERATIONS
 ;***********************
 
-(defn search [tags &{:keys [as]}]
+(defn search [tags &{:keys [as sort-dir]}]
   (let [tag-vec (parse-tags tags)
         is-json (= as :json)
         opts (if is-json [:as :json] [])
         opts (if (seq tag-vec) 
                (concat opts [:where {:tags {"$all" tag-vec}}
-                             :sort {:ts 1}]))
+                             :sort {:ts sort-dir}]))
         res (apply db/fetch coll opts)]
     (if is-json
       (fix-json res)

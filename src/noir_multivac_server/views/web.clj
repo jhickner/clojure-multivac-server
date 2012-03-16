@@ -89,7 +89,7 @@
   (items-page (items/search "todo")))
 
 (defpage [:post "/notes"] {:as data}
-  (items-page (items/search (data :tags))))
+  (items-page (items/search (data :tags) :sort-dir -1)))
 
 (defpage [:get ["/notes/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
   (items-page (items/search tags)))
