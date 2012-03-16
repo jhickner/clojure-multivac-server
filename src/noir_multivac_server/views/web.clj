@@ -86,7 +86,7 @@
   (res/redirect "/notes"))
 
 (defpage "/notes" []
-  (items-page (items/search "todo")))
+  (items-page (items/search "todo" :sort-dir -1)))
 
 (defpage [:post "/notes"] {:as data}
   (items-page (items/search (data :tags) :sort-dir -1)))
