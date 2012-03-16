@@ -92,7 +92,7 @@
   (items-page (items/search (data :tags) :sort-dir -1)))
 
 (defpage [:get ["/notes/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
-  (items-page (items/search tags)))
+  (items-page (items/search tags :sort-dir -1)))
 
 (defpage "/login" {:as user}
          (if (users/admin?)
