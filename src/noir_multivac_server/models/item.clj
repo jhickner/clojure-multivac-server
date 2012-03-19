@@ -38,11 +38,8 @@
         is-json (= as :json)
         opts [:sort {:ts sort-dir}]
         opts (if is-json (concat opts [:as :json]) opts)
-        opts (if (or (seq tags) (seq exclude-tags)) 
-               (let [where {}
-                     where (if (seq tags)
-                             (assoc where "$all" tags)
-                             where)
+        opts (if (seq tags)
+               (let [where {"$all" tags}
                      where (if (seq exclude-tags)
                              (assoc where "$nin" exclude-tags)
                              where)]
