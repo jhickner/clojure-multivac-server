@@ -16,7 +16,7 @@
     (map string/lower-case 
          (filter #(not (string/blank? %)) 
                  (string/split 
-                   (string/replace tags #"[^\w\s,]" "") #"[\s,]+")))
+                   (string/replace tags #"[^-\w\s,]" "") #"[\s,]+")))
     tags))
 
 (defn- annotate-item [p]
@@ -32,14 +32,24 @@
 ;***********************
 
 (defn search [tags &{:keys [as sort-dir] :or {sort-dir -1}}]
-  (let [tag-vec (parse-tags tags)
+  (let [tags (parse-tags tags)
+        {exclude-tags true tags false} (group-by #(.startsWith % "-") tags)
+        exclude-tags (map #(subs % 1) exclude-tags)
         is-json (= as :json)
         opts [:sort {:ts sort-dir}]
         opts (if is-json (concat opts [:as :json]) opts)
-        opts (if (seq tag-vec) 
-               (concat opts [:where {:tags {"$all" tag-vec}}])
+        opts (if (or (seq tags) (seq exclude-tags)) 
+               (let [where {}
+                     where (if (seq tags)
+                             (assoc where "$all" tags)
+                             where)
+                     where (if (seq exclude-tags)
+                             (assoc where "$nin" exclude-tags)
+                             where)]
+                 (concat opts [:where {:tags where}])) 
                opts)
         res (apply db/fetch coll opts)]
+    ; (prn opts)
     (if is-json
       (fix-json res)
       res)))

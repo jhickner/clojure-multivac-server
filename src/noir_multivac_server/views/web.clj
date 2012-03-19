@@ -91,7 +91,7 @@
 (defpage "/notes" [] (items-page []))
 (defpage "/notes/" [] (items-page [])) 
 
-(defpage [:get ["/notes/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
+(defpage [:get ["/notes/:tags" :tags #"(%20|[-\w\s,])+"]] {tags :tags}
   (let [tags (items/parse-tags tags)]
     ; don't allow an empty search
     (items-page (if (seq tags) 
