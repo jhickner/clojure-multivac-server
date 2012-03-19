@@ -14,6 +14,9 @@
 (defn- json-ctype [body]
   (res/content-type "application/json" body))
 
+(defpage "/api/search/" []
+  (json-ctype (items/search [] :as :json :sort-dir 1)))
+
 (defpage [:get ["/api/search/:tags" :tags #"(%20|[\w\s,])+"]] {tags :tags}
   (json-ctype (items/search tags :as :json :sort-dir 1)))
 
