@@ -11,10 +11,12 @@
 ; HELPERS
 ;***********************
 
-(defn- parse-tags [tags] 
+(defn parse-tags [tags] 
   (if (string? tags) 
     (map string/lower-case 
-         (string/split (string/replace tags #"[^\w\s,]" "") #"[\s,]+"))
+         (filter #(not (string/blank? %)) 
+                 (string/split 
+                   (string/replace tags #"[^\w\s,]" "") #"[\s,]+")))
     tags))
 
 (defn- annotate-item [p]
