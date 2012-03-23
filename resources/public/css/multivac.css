@@ -1,5 +1,9 @@
-ul.tags { font-family:'IM Fell English', serif; 
-  font-size:2em; 
+body {
+  font-size:15px;
+}
+
+ul.tags { 
+  font-size:20px; 
   line-height:1em;
   margin-bottom:5px;
   list-style-type:none;
@@ -16,12 +20,31 @@ a.tag:active, a.tag:visited, a.tag:link {
 }
 
 a.tag:hover {
-  color:#99ccff;
+  color:#4d4d4d;
 }
 
 a:link, a:visited, a:active {
-  color:#99ccff;
+  color:#000;
   /* color:#333;*/
+}
+
+.info {
+  display:inline-block;
+  font-size:12px;
+  line-height:20px;
+  height:20px;
+}
+
+a.delete {
+  color:#fff;
+  text-decoration:none;
+  border-radius:10px;
+  padding:0 5px 0 5px;
+  background-color:#000;
+}
+
+a.delete:hover {
+  background-color:#eb3d0e;
 }
 
 #wrapper {
@@ -29,21 +52,19 @@ a:link, a:visited, a:active {
 }
 
 li.item {
-  margin:0 0 20px 0;
-  padding-bottom:20px;
-  border-bottom:dotted 1px;
-  max-width:650px;
+  margin:25px 0 0 0;
+  padding-bottom:25px;
+  border-bottom:#e2e2e2 solid 1px;
 }
 
 .date {
-  background-color:#000;
-  color:#fff;
-  font-style:italic;
-  font-size:0.8em;
-  padding:2px;}
+  font-size:15px;
+  margin-right:10px;
+}
 
 .content {
-  font-family:'Andale Mono', monospace;
+  color:#4d4d4d;
   white-space:pre-wrap;
   margin-top:10px;
+  max-width:650px;
 }

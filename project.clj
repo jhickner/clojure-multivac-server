@@ -1,7 +1,7 @@
 (defproject noir-multivac-server "0.1.0-SNAPSHOT"
   :description "FIXME: write this!"
   :dependencies [[org.clojure/clojure "1.3.0"]
-                 [noir "1.3.0-alpha10"]
+                 [noir "1.3.0-beta2"]
                  [fetch "0.1.0-alpha2"]
                  [jayq "0.1.0-SNAPSHOT"]
                  [congomongo "0.1.8"]

@@ -8,8 +8,9 @@
   (:use noir.core
         noir.fetch.remotes
         hiccup.core
-        hiccup.page-helpers
-        hiccup.form-helpers
+        hiccup.page
+        hiccup.form
+        hiccup.element
         (clj-time [core :only [in-days interval now]])
         (clj-time [coerce :only [from-date]])
         ))
@@ -24,14 +25,14 @@
                [:meta {:content "width=device-width, initial-scale=1" 
                        :name "viewport"}]
                [:title "Multivac"]
-               (include-css 
-                 "http://fonts.googleapis.com/css?family=IM+Fell+English")
+               (include-js "http://use.typekit.com/vek3cab.js")
+               (javascript-tag "try{Typekit.load();}catch(e){}")
                (include-css "/css/reset.css")
                (include-css "/css/multivac.css")
                (include-js 
                  "https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js") 
               (include-js "/js/main.js")] 
-              [:body
+              [:body.droid
                [:div#wrapper
                 content]]))
 
@@ -41,10 +42,10 @@
 
 (defpartial item-layout [i]
   [:li.item {:data-id (i :_id)}
-    [:ul.tags (map tag-link (i :tags))]
-    [:span.date (in-days (interval (from-date (i :ts)) (now)))
+    [:ul.tags (map tag-link (map string/upper-case (i :tags)))]
+    [:div.date.info (in-days (interval (from-date (i :ts)) (now)))
                 " days ago"]
-    [:a.delete {:href "#" :data-id (i :_id) } "delete"]
+    [:a.delete.info {:href "#" :data-id (i :_id) } "delete"]
     [:p.content (i :body)]
     (when-let [link (i :link)] 
       [:a {:href link :target "_new"} link]) 

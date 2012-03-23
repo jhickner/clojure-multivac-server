@@ -6,7 +6,7 @@
             [cheshire.core :as json])
   (:use noir.core
         hiccup.core
-        hiccup.page-helpers))
+        hiccup.page))
 
 
 (def id-regex #"[a-zA-Z0-9]{24}")
