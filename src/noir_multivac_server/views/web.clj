@@ -24,6 +24,10 @@
               [:head
                [:meta {:content "width=device-width, initial-scale=1" 
                        :name "viewport"}]
+               [:meta {:name "apple-mobile-web-app-capable"
+                       :content "yes"}] 
+               [:meta {:names "apple-mobile-web-app-status-bar-style"
+                       :content "black-translucent"}]
                [:title "Multivac"]
                (include-js "http://use.typekit.com/vek3cab.js")
                (javascript-tag "try{Typekit.load();}catch(e){}")
