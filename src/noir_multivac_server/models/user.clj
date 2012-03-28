@@ -13,6 +13,9 @@
 (defn me []
   (session/get :username))
 
+(defn get-key [key]
+  (db/fetch-one coll :where {:key key}))
+
 (defn get-username [username]
   (db/fetch-one coll :where {:username username}))
 

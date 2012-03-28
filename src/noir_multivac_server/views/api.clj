@@ -1,5 +1,6 @@
 (ns noir-multivac-server.views.api
   (:require [noir-multivac-server.models.item :as items]
+            [noir-multivac-server.models.user :as users]
             [noir.response :as res]
             [noir.request :as request]
             [remvee.base64 :as base64]
@@ -28,12 +29,6 @@
         id (str (:_id (items/add! 
                         (json/parse-string body))))]
     id))
-
-(defpage [:put ["/api/item/:id" :id id-regex]] {id :id}
-  ; parse json body as p
-  ;(items/update! id p)
-  ; return 200 ok
-  )
 
 (defpage [:delete ["/api/item/:id" :id id-regex]] {id :id}
   (items/delete! id)
@@ -65,8 +60,7 @@
 (pre-route "/api*" []
            (let [req (request/ring-request)
                  auth (parse-basic-auth req)]
-             (if (= (:user auth) 
-                    "653638dc733afce75130303fe6e6010f63768af0")
+             (if (users/get-key (:user auth))
                nil
                (res/status 401 "Access denied"))))
 
